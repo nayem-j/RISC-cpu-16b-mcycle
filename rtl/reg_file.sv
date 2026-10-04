@@ -14,7 +14,7 @@ module reg_file (
   output logic [15:0] read_data2
 );
   
-  bit [15:0] regs [7:0];
+  logic [15:0] regs [7:0];
   
   always_ff @(posedge clk) begin
     if(rst) begin
