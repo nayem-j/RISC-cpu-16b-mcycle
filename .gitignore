@@ -1,1 +1,13 @@
 
+
+*.log
+*.pb
+*.jou
+
+*.vcd
+*.wdb
+
+xsim.dir/
+.Xil/
+
+files.f
