@@ -14,7 +14,7 @@ module d_mem_8_X #(
   input  logic                     write_en,
   input  logic [7:0]               write_data,
   input  logic                     mem_read,
-  output logic [7:0]               read_data,
+  output logic [7:0]               read_data
 );
 
   logic [7:0] mem [DEPTH-1:0];

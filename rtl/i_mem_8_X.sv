@@ -12,7 +12,7 @@ module i_mem_8_X #(
   input  logic                     rst,
   input  logic [$clog2(DEPTH)-1:0] mem_access_addr,
   input  logic                     mem_read,
-  output logic [7:0]               read_data,
+  output logic [7:0]               read_data
 );
 
   logic [7:0] mem [DEPTH-1:0];

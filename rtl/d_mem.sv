@@ -3,17 +3,17 @@
 // Author: Md. Jannatul Nayem
 
 module d_mem #(
-  parameter                        DEPTH = 1024
+  parameter                      DEPTH = 1024
 )
 (
-  input  logic                     clk,
-  input  logic                     rst,
-  input  logic [$clog2(DEPTH):0]   mem_access_addr,
-  input  logic [1:0]               byte_sel,
-  input  logic                     write_en,
-  input  logic [15:0]              write_data,
-  input  logic                     mem_read,
-  output logic [15:0]              read_data,
+  input  logic                   clk,
+  input  logic                   rst,
+  input  logic [$clog2(DEPTH):0] mem_access_addr,
+  input  logic [1:0]             byte_sel,
+  input  logic                   write_en,
+  input  logic [15:0]            write_data,
+  input  logic                   mem_read,
+  output logic [15:0]            read_data
 );
 
   /*memory bank0*/
@@ -23,10 +23,10 @@ module d_mem #(
   ) mem_b0 (
     .clk(clk),
     .rst(rst),
-    .mem_access_addr(mem_access_addr >> 1),
+    .mem_access_addr(mem_access_addr & ~1'b1),
     .write_en(write_en & byte_sel[0]),
     .write_data(write_data[7:0]),
-    .mem_read(mem_read & byte_sel[0]),
+    .mem_read(mem_read),
     .read_data(read_data[7:0])
   );
 
@@ -38,10 +38,10 @@ module d_mem #(
   ) mem_b1 (
     .clk(clk),
     .rst(rst),
-    .mem_access_addr(mem_access_addr >> 1),
+    .mem_access_addr(mem_access_addr & ~1'b1),
     .write_en(write_en & byte_sel[1]),
     .write_data(write_data[15:8]),
-    .mem_read(mem_read & byte_sel[1]),
+    .mem_read(mem_read),
     .read_data(read_data[15:8])
   );
 
