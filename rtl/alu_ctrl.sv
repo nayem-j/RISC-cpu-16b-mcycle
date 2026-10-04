@@ -14,7 +14,7 @@ module alu_ctrl(
     
     if (alu_op == 2'd0) begin /* alu operation*/
 
-      case (opcode) begin 
+      case (opcode) 
 	/* decode primary opcode*/
         4'd2 : ctrl_out = 5'd0;
         4'd3 : ctrl_out = 5'd1;
@@ -26,7 +26,7 @@ module alu_ctrl(
         4'd9 : ctrl_out = 5'd7;
 
         4'd15 : begin 
-          case (sec_opcode) begin
+          case (sec_opcode) 
 	    /* decode secondary opcode*/
             3'd0 : ctrl_out = 5'd8;
             3'd1 : ctrl_out = 5'd9;

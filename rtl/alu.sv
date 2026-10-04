@@ -6,19 +6,18 @@ module alu(
   input  logic [15:0] rs2,
   input  logic [3:0]  ctrl,
   output logic [15:0] rd,
-  output logic [7:0]  flags
+  output logic [2:0]  flags
 );
 
   logic carry_f,sign_f,zero_f;
   
-  assign flags[2:0] = {carry_f,sign_f,zero_f};
-  /*bits [7:3] are reserved*/
+  assign flags = {carry_f,sign_f,zero_f};
 
   always_comb begin
     rd = 16'd0;
     carry_f = 1'b0;
 
-    case (ctrl) begin
+    case (ctrl)
       4'd0  : {carry_f,rd} = rs1 + rs2;           /*ADD*/
       4'd1  : rd           = rs1 - rs2;           /*SUB*/
       4'd2  : rd           = ~rs1;                /*INVERT*/
