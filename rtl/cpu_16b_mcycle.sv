@@ -45,7 +45,7 @@ wire [2:0]  alu_flags;
 reg  [2:0]  flags;
 
 wire [2:0]  rs1_addr, rs2_addr;
-reg  [2:0]  rd_addr;
+wire [2:0]  rd_addr;
 wire [15:0] rs1_data, rs2_data;
 reg  [15:0] rd_data;
 reg         reg_write_en;
@@ -56,7 +56,8 @@ assign imm_mc   = fetched[5:0];
 assign imm_j    = fetched[11:0];
 assign rs1_addr = fetched[11:9];
 assign rs2_addr = fetched[8:6];
-
+assign rd_addr  = (op == 4'd0 && alu_op == 2'd2) ?
+  rs2_addr : fetched[5:3];
 
 // state register
 always_ff @(posedge clk) 
@@ -128,10 +129,8 @@ begin
   end // ~SETUP
 
   else if (st == FETCH) begin
+    
     fetched <= imem_read_data;
-  end // ~FETCH
-
-  else if (st == EXECUTE) begin
     if((op > 4'd9 && op < 4'd15) || op < 4'd2) begin
       if(op == 4'd0) begin
         dmem_access_addr <= rs1_data + imm_mc;
@@ -144,6 +143,17 @@ begin
     end
     else begin
       alu_op  <= 2'd0;
+    end
+  end // ~FETCH
+
+  else if (st == EXECUTE) begin
+    if((op > 4'd9 && op < 4'd15) || op < 4'd2) begin
+      if(op == 4'd0) begin
+        rd_data   <= dmem_read_data;
+        dmem_read <= 1'b1; /* May've kept 0*/
+      end
+    end
+    else begin
       rd_data <= alu_result;
       flags   <= alu_flags;
     end
@@ -159,9 +169,6 @@ begin
       dmem_read        <= 1'b0;
 
     end else if (op == 4'd0) begin
-      rd_data          <= dmem_read_data;
-      dmem_read        <= 1'b1;
-      rd_addr          <= rs2_addr;
       reg_write_en     <= 1'b1;
 
     end else if (op > 4'd1 && op < 4'd15) begin
