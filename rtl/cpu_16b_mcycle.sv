@@ -223,7 +223,7 @@ alu alu_i (
 );
 
 // register file instance
-reg_file regs (
+reg_file regs_i (
   .clk(clk),
   .rst(rst),
   .read_addr1(rs1_addr),

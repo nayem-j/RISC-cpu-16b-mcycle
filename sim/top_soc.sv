@@ -8,7 +8,9 @@ module top_soc ();
     forever #5 clk = ~clk;
   end
 
-  soc u_soc (
+  soc #(
+    .MEM_DEPTH(32)
+  ) u_soc (
     .clk(clk),
     .rst(rst)
   );
