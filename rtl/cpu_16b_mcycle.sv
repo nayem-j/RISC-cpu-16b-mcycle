@@ -125,7 +125,9 @@ begin
   else if (st == SETUP) begin
     imem_access_addr <= pc;
     imem_read        <= 1'b1;
+    dmem_write_en    <= 1'b0;
     reg_write_en     <= 1'b0;
+    
   end // ~SETUP
 
   else if (st == FETCH) begin
@@ -162,6 +164,8 @@ begin
   else if (st == STORAGE) begin
 
     if(op == 4'd1) begin
+      pc <= pc + 16'd2;
+
       dmem_access_addr <= rs1_data + imm_mc;
       dmem_byte_sel    <= 2'd3;
       dmem_write_en    <= 1'b1;
@@ -169,7 +173,8 @@ begin
       dmem_read        <= 1'b0;
 
     end else if (op == 4'd0) begin
-      reg_write_en     <= 1'b1;
+      pc <= pc + 16'd2;
+      reg_write_en <= 1'b1;
 
     end else if (op > 4'd1 && op < 4'd15) begin
       if(op > 4'd9 && op < 4'd15) begin
@@ -195,10 +200,11 @@ begin
           end
           default: pc <= pc + 16'd2;
         endcase
-      end else reg_write_en <= 1'b1;
+      end else begin /* other ALU operations */
+        pc <= pc + 16'd2;
+        reg_write_en <= 1'b1;
+      end
     end
-
-    pc <= pc + 16'd2;
   end // ~STORAGE
 
 end
