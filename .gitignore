@@ -8,6 +8,7 @@
 *.wdb
 
 xsim.dir/
+xsim.covdb/
 .Xil/
 
 files.f
