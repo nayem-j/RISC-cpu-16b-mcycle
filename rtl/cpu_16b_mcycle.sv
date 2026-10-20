@@ -1,6 +1,9 @@
 // File: cpu_16b_mcycle.sv
 // Author: Md. Jannatul Nayem
 
+`define DEBUG
+import defs::*;
+
 module cpu_16b_mcycle #(
   parameter                          MEM_DEPTH = 1024
 )
@@ -19,15 +22,32 @@ module cpu_16b_mcycle #(
   output logic                       dmem_write_en,
   output logic [15:0]                dmem_write_data,
   output logic                       dmem_read,
-  input  logic [15:0]                dmem_read_data
-);
+  input  logic [15:0]                dmem_read_data `ifdef DEBUG,`endif
 
+`ifdef DEBUG
+  output state_t                     debug_state,
+  output logic [15:0]                debug_pc,
+  output logic [15:0]                debug_fetched,
+  output logic [1:0]                 debug_alu_op,
+  output logic [15:0]                debug_alu_result,
+  output logic [2:0]                 debug_flags,
+  output logic [2:0]                 debug_rs1_addr,
+  output logic [15:0]                debug_rs1_data,
+  output logic [2:0]                 debug_rs2_addr,
+  output logic [15:0]                debug_rs2_data,
+  output logic [2:0]                 debug_rd_addr,
+  output logic [15:0]                debug_rd_data,
+  output logic                       debug_reg_write_en
+`endif
+);
+/* 
 typedef enum logic [1:0] {
   SETUP,   // IN SETUP STATE
   FETCH,   // FETCH + DECODE
   EXECUTE, // EXECUTE / LOAD
-  STORAGE  // WRITE TO MEM OR REG + PC UPDATE
-} state_t;
+  STORAGE  // WRITE TO MEM OR REG 
+           // + PC UPDATE
+} state_t; */
 
 state_t     st, st_next;
 
@@ -240,5 +260,21 @@ reg_file regs_i (
   .read_data1(rs1_data),
   .read_data2(rs2_data)
 );
+
+`ifdef DEBUG
+  assign debug_state         = st;
+  assign debug_pc            = pc;
+  assign debug_fetched       = fetched;
+  assign debug_alu_op        = alu_op;
+  assign debug_alu_result    = alu_result;
+  assign debug_flags         = flags;
+  assign debug_rs1_addr      = rs1_addr;
+  assign debug_rs1_data      = rs1_data;
+  assign debug_rs2_addr      = rs2_addr;
+  assign debug_rs2_data      = rs2_data;
+  assign debug_rd_addr       = rd_addr;
+  assign debug_rd_data       = rd_data;
+  assign debug_reg_write_en  = reg_write_en;
+`endif
 
 endmodule
