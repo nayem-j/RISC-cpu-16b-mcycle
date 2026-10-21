@@ -3,14 +3,14 @@ module top_d_mem();
 
     parameter DEPTH = 256; // Example depth, adjust as needed
 
-    logic                     clk;
-    logic                     rst;
-    logic [$clog2(DEPTH):0]   mem_access_addr;
-    logic [1:0]               byte_sel;
-    logic                     write_en;
-    logic [15:0]              write_data;
-    logic                     mem_read;
-    logic [15:0]              read_data;
+    logic                   clk;
+    logic                   rst;
+    logic [$clog2(DEPTH):0] mem_access_addr;
+    logic [1:0]             byte_sel;
+    logic                   write_en;
+    logic [15:0]            write_data;
+    logic                   mem_read;
+    logic [15:0]            read_data;
 
     initial begin
         clk = 0;
@@ -18,6 +18,7 @@ module top_d_mem();
     end
 
     d_mem #(
+        .START_ADDRESS('h0),
         .DEPTH(DEPTH)
     ) uut (
         .clk(clk),

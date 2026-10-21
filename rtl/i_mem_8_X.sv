@@ -4,15 +4,15 @@
 
 /*each entry 8 bit, depth parameterized*/
 module i_mem_8_X #(
-  parameter                        DEPTH = 1024,
-  parameter                        MEM_INIT = ""
+  parameter           DEPTH = 1024,
+  parameter           MEM_INIT = ""
 )
 (
-  input  logic                     clk,
-  input  logic                     rst,
-  input  logic [$clog2(DEPTH)-1:0] mem_access_addr,
-  input  logic                     mem_read,
-  output logic [7:0]               read_data
+  input  logic        clk,
+  input  logic        rst,
+  input  logic [15:0] mem_access_addr,
+  input  logic        mem_read,
+  output logic [7:0]  read_data
 );
 
   logic [7:0] mem [DEPTH-1:0];
