@@ -10,7 +10,7 @@ module top_soc ();
 
   soc #(
     .MEM_DEPTH(32)
-  ) u_soc (
+  ) soc_i (
     .clk(clk),
     .rst(rst)
   );
@@ -20,8 +20,14 @@ module top_soc ();
     #10;
     rst = 1'b0;
     
-    repeat (200) @(posedge clk);
-    $finish;
+    while(1) begin
+      @(posedge clk);
+      if (soc_i.dmem_access_addr == 16'hFFFF &&
+          soc_i.dmem_write_en && soc_i.dmem_write_data[15]) begin
+        $display("Simulation finished at time %0t with exit code %0h", $time, soc_i.dmem_write_data[3:0]);
+        $finish;
+      end
+    end
   end
 
   initial begin

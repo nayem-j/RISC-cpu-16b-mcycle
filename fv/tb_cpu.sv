@@ -20,9 +20,7 @@ module tb_cpu;
   cpu_intf intf(clk);
 
   // Design instance
-  cpu_16b_mcycle #(
-    .MEM_DEPTH(MEM_DEPTH)
-  ) uut (
+  cpu_16b_mcycle dut_cpu_16b_mcycle_i (
     .clk(intf.clk),
     .rst(intf.rst),
 
@@ -51,6 +49,7 @@ module tb_cpu;
 
   // inst memory instance
   i_mem #(
+    .START_ADDRESS(16'h0000),
     .DEPTH(MEM_DEPTH)
   ) imem_i (
     .clk(intf.clk),
@@ -62,6 +61,7 @@ module tb_cpu;
   
   // data memory instance
   d_mem #(
+    .START_ADDRESS(16'hF000),
     .DEPTH(MEM_DEPTH)
   ) dmem_i(
     .clk(intf.clk),
@@ -72,6 +72,18 @@ module tb_cpu;
     .write_data(intf.dmem_write_data),
     .mem_read(intf.dmem_read),
     .read_data(intf.dmem_read_data)
+  );
+
+  test_reg #( // memory mapped test register
+    .START_ADDRESS(16'hFFFF)
+  ) test_reg_i(
+    .clk(intf.clk),
+    .rst(intf.rst),
+    .access_addr(intf.dmem_access_addr),
+    .write_en(intf.dmem_write_en),
+    .write_data(intf.dmem_write_data),
+    .read_data(intf.dmem_read_data),
+    .read(intf.dmem_read)
   );
 
   // Dump waveform

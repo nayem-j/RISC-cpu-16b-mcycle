@@ -4,40 +4,37 @@
 `define DEBUG
 import defs::*;
 
-module cpu_16b_mcycle #(
-  parameter                          MEM_DEPTH = 1024
-)
-(
+module cpu_16b_mcycle (
   // clock and reset
-  input  logic                       clk,
-  input  logic                       rst,
+  input  logic        clk,
+  input  logic        rst,
 
   // memory interfaces
-  output logic [$clog2(MEM_DEPTH):0] imem_access_addr,
-  output logic                       imem_read,
-  input  logic [15:0]                imem_read_data,
+  output logic [15:0] imem_access_addr,
+  output logic        imem_read,
+  input  logic [15:0] imem_read_data,
 
-  output logic [$clog2(MEM_DEPTH):0] dmem_access_addr,
-  output logic [1:0]                 dmem_byte_sel,
-  output logic                       dmem_write_en,
-  output logic [15:0]                dmem_write_data,
-  output logic                       dmem_read,
-  input  logic [15:0]                dmem_read_data `ifdef DEBUG,`endif
+  output logic [15:0] dmem_access_addr,
+  output logic [1:0]  dmem_byte_sel,
+  output logic        dmem_write_en,
+  output logic [15:0] dmem_write_data,
+  output logic        dmem_read,
+  input  logic [15:0] dmem_read_data `ifdef DEBUG,`endif
 
 `ifdef DEBUG
-  output state_t                     debug_state,
-  output logic [15:0]                debug_pc,
-  output logic [15:0]                debug_fetched,
-  output logic [1:0]                 debug_alu_op,
-  output logic [15:0]                debug_alu_result,
-  output logic [2:0]                 debug_flags,
-  output logic [2:0]                 debug_rs1_addr,
-  output logic [15:0]                debug_rs1_data,
-  output logic [2:0]                 debug_rs2_addr,
-  output logic [15:0]                debug_rs2_data,
-  output logic [2:0]                 debug_rd_addr,
-  output logic [15:0]                debug_rd_data,
-  output logic                       debug_reg_write_en
+  output state_t      debug_state,
+  output logic [15:0] debug_pc,
+  output logic [15:0] debug_fetched,
+  output logic [1:0]  debug_alu_op,
+  output logic [15:0] debug_alu_result,
+  output logic [2:0]  debug_flags,
+  output logic [2:0]  debug_rs1_addr,
+  output logic [15:0] debug_rs1_data,
+  output logic [2:0]  debug_rs2_addr,
+  output logic [15:0] debug_rs2_data,
+  output logic [2:0]  debug_rd_addr,
+  output logic [15:0] debug_rd_data,
+  output logic        debug_reg_write_en
 `endif
 );
 /* 
