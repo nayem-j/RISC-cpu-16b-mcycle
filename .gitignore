@@ -1,4 +1,4 @@
-
+files.f
 
 *.log
 *.pb
@@ -8,7 +8,9 @@
 *.wdb
 
 xsim.dir/
-xsim.covdb/
 .Xil/
 
-files.f
+xsim.codeCov/
+xsim.covdb/
+
+coverage_report/

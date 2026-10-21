@@ -5,17 +5,14 @@ covergroup cg_ops(virtual cpu_intf intf) @(posedge intf.clk);
 
   imem_read_CP: coverpoint intf.imem_read {
     bins read = {1};
-    bins not_read = {0};
   }
 
   dmem_read_CP: coverpoint intf.dmem_read {
     bins read = {1};
-    bins not_read = {0};
   }
 
   dmem_write_en_CP: coverpoint intf.dmem_write_en {
     bins write = {1};
-    bins not_write = {0};
   }
 
   state_t_CP: coverpoint intf.debug_state {
