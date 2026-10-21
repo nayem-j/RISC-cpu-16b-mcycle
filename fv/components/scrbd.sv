@@ -189,7 +189,7 @@ class scrbd;
               $time, trn.dmem_byte_sel, exp_dmem_bsel);
           end
         end
-
+        
         pending_commit = 1'b0;
       end
 
