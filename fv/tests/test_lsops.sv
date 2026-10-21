@@ -7,6 +7,7 @@ class test_lsops extends base_test;
 
   virtual task run_test();
     reset(10);
+    letpass(1000); // let 1000 simulation cycles pass after reset
     env.scr.report();
   endtask
 

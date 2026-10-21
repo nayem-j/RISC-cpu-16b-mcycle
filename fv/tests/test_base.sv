@@ -22,6 +22,11 @@ class base_test;
     env.ag.drv.reset(cycles);
   endtask
 
+  virtual task letpass(input int cycles);
+    $display("Let %0d simulation cycles pass at time %0t", cycles, $time);
+    repeat(cycles) @(posedge env.ag.drv.intf.clk);
+  endtask
+
   virtual task run_test();
     reset(10); // default to 10 cycles for reset
   endtask
