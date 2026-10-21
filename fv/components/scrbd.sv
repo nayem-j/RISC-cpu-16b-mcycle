@@ -189,7 +189,7 @@ class scrbd;
               $time, trn.dmem_byte_sel, exp_dmem_bsel);
           end
         end
-        
+
         pending_commit = 1'b0;
       end
 
@@ -248,8 +248,8 @@ class scrbd;
   endtask
 
   task report(); // Report scoreboard status
-    $display("Scoreboard report at time %0t", $time);
-    $display("Errors %0d, total transactions %0d ", err_cnt, total);
+    $display("\033[38;5;208mScoreboard report at time %0t\033[0m", $time);
+    $display("\033[38;5;208mErrors %0d, total transactions %0d\033[0m", err_cnt, total);
   endtask
 
 endclass : scrbd
