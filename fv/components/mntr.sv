@@ -42,6 +42,7 @@ class mntr;
         trn.debug_rd_data        = intf.debug_rd_data;
         trn.debug_reg_write_en   = intf.debug_reg_write_en;
 
+        $display("Transaction captured at time %0t", $time);
         mbx.put(trn);
     end
   endtask
