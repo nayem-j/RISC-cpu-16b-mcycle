@@ -2,18 +2,18 @@
 class mntr;
 
   virtual cpu_intf intf;
-  mailbox mbx;
+  mailbox mn_scb;
   trnxt trn;
   bit simulation_finished;
 
-  function new(virtual cpu_intf intf, mailbox mbx);
+  function new(virtual cpu_intf intf, mailbox mn_scb);
     $display("Monitor instance created at time %0t", $time);
     this.intf = intf;
-    this.mbx = mbx;
+    this.mn_scb = mn_scb;
     this.simulation_finished = 1'b0;
   endfunction
 
-  task monitor();
+  virtual task monitor();
     forever begin
         @(posedge intf.clk);
 
@@ -53,7 +53,7 @@ class mntr;
         end
 
         $display("Transaction captured at time %0t", $time);
-        mbx.put(trn);
+        mn_scb.put(trn);
     end
   endtask
 

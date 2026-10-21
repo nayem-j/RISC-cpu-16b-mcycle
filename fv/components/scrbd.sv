@@ -3,7 +3,7 @@ import defs::*;
 class scrbd;
 
   virtual cpu_intf intf;
-  mailbox mbx;
+  mailbox mn_scb;
   trnxt trn;
 
   int err_cnt, total;
@@ -140,10 +140,10 @@ class scrbd;
     end
   endtask
 
-  function new(virtual cpu_intf intf, mailbox mbx);
+  function new(virtual cpu_intf intf, mailbox mn_scb);
     $display("Scoreboard instance created at time %0t", $time);
     this.intf = intf;
-    this.mbx = mbx;
+    this.mn_scb = mn_scb;
     this.err_cnt = 0;
     this.total = 0;
     this.pending_commit = 1'b0;
@@ -156,7 +156,7 @@ class scrbd;
     this.exp_dmem_bsel = 2'd0;
   endfunction
 
-  task check(); // Main scoreboard checking task
+  virtual task check(); // Main scoreboard checking task
 
     logic [3:0] op;
     logic [2:0] sec_op;
@@ -166,7 +166,8 @@ class scrbd;
     logic [2:0] exp_flags;
 
     forever begin
-      mbx.get(trn);
+      trn = new(); // create a new transaction object before getting it from the mailbox
+      mn_scb.get(trn);
       $display("Scoreboard received transaction at time %0t", $time);
 
       op = trn.debug_fetched[15:12];
@@ -247,7 +248,7 @@ class scrbd;
     end
   endtask
 
-  task report(); // Report scoreboard status
+  virtual task report(); // Report scoreboard status
     $display("\033[38;5;208mScoreboard report at time %0t\033[0m", $time);
     $display("\033[38;5;208mErrors %0d, total transactions %0d\033[0m", err_cnt, total);
   endtask
