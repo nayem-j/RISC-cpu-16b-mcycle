@@ -4,6 +4,7 @@ class base_test;
   semaphore sem;
 
   bit simulation_finished;
+  int num_seq_gnr = 0;
 
   function new(virtual cpu_intf intf);
     $display("Base test instance created at time %0t", $time);
@@ -11,10 +12,11 @@ class base_test;
     env = new(intf, sem);
 
     fork
+      env.ag.drv.drive();
       env.ag.mn.monitor();
       env.scr.check();
       /* Add more parallel processes here if need be */
-
+      // if requested for termination from software or other sources
       check_simulation_finished();
     join_none
 
