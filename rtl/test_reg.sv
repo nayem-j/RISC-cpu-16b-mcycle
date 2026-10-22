@@ -8,8 +8,8 @@ module test_reg #(
   input  logic [15:0]  access_addr,
   input  logic         write_en,
   input  logic [15:0]  write_data,
-  output logic [15:0]  read_data,
-  input  logic         read
+  input  logic         read,
+  output logic [15:0]  read_data
 );
 
   // Internal register to hold the test value

@@ -82,8 +82,8 @@ module tb_cpu;
     .access_addr(intf.dmem_access_addr),
     .write_en(intf.dmem_write_en),
     .write_data(intf.dmem_write_data),
-    .read_data(intf.dmem_read_data),
-    .read(intf.dmem_read)
+    .read(intf.dmem_read),
+    .read_data(intf.dmem_read_data)
   );
 
   // Dump waveform

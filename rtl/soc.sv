@@ -57,8 +57,8 @@ module soc #(
     .access_addr(dmem_access_addr),
     .write_en(dmem_write_en),
     .write_data(dmem_write_data),
-    .read_data(dmem_read_data),
-    .read(dmem_read)
+    .read(dmem_read),
+    .read_data(dmem_read_data)
   );
 
   // cpu instance and memories connection
