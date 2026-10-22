@@ -30,11 +30,18 @@ interface cpu_intf (input logic clk);
   logic        debug_reg_write_en;
 
 
-  property p_reset;
+  property prop_reset;
     @(posedge clk) disable iff (!rst)
     (rst) |-> ##1 (debug_state == SETUP && debug_pc == 16'd0);
   endproperty
 
-  assert property (p_reset) else $error("Reset property failed");
+  property prop_pc_upd;
+    @(posedge clk) disable iff (!rst)
+    (debug_state == STORAGE) |-> ##1 (debug_pc != $past(debug_pc));
+  endproperty
+  
+  assert property (prop_reset) else $error("\033[38;5;208mReset property failed\033[0m");
+  
+  assert property (prop_pc_upd) else $error("\033[38;5;208mPC update property failed\033[0m");
 
 endinterface : cpu_intf
