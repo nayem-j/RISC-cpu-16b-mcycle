@@ -2,7 +2,7 @@ import tb_params::*;
 
 module tb_cpu;
 
-  string test = "dpops";
+  string test;
   bit clk;
 
   // Test class handles
@@ -90,29 +90,31 @@ module tb_cpu;
   initial begin
     $dumpfile("tb_cpu.vcd");
     $dumpvars(0, tb_cpu);
-
-    if(test != "") begin
-      $display("Running test: %s", test);
-    end else begin
-        $display("No test specified");
-    end
   end
 
   // Test execution
   initial begin
+    if (!$value$plusargs("TESTNAME=%s", test)) begin
+      test = "";
+    end
+
     if(test != "") begin
-        if(test == "dpops") begin
-           dpops = new(intf);
-           dpops.run_test();
-        end else if (test == "lsops") begin
-           lsops = new(intf);
-           lsops.run_test();
-        end else if (test == "conops") begin
-           conops = new(intf);
-           conops.run_test();
-        end else begin
-          $display("Unknown test: %s", test);
-        end
+      $display("\033[38;5;208mRunning test: %s\033[0m", test);
+      if(test == "dpops") begin
+        dpops = new(intf);
+        dpops.run_test();
+      end else if (test == "lsops") begin
+        lsops = new(intf);
+        lsops.run_test();
+      end else if (test == "conops") begin
+        conops = new(intf);
+        conops.run_test();
+      end else begin
+        $display("\033[38;5;208mUnknown test: %s\033[0m", test);
+        $display("\033[38;5;208mSupported tests: dpops, lsops, conops\033[0m");
+      end
+    end else begin
+      $display("\033[38;5;208mNo test specified\033[0m");
     end
     #10 $finish; // Finish simulation
   end

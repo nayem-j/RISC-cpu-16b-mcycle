@@ -9,6 +9,11 @@ FILELIST = files.f
 
 # Testbench top module
 TOP ?= tb_cpu
+TESTNAME ?=
+
+ifneq ($(strip $(TESTNAME)),)
+XSIM_PLUSARGS = --testplusarg TESTNAME=$(TESTNAME)
+endif
 
 # Build directory
 BUILD = build
@@ -40,14 +45,14 @@ elaborate: compile
 	$(XELAB) $(TOP) -s $(SNAPSHOT) $(ELAB_COV_FLAGS)
 
 run: elaborate
-	$(XSIM) $(SNAPSHOT) -runall $(XSIM_COV_FLAGS)
+	$(XSIM) $(SNAPSHOT) -runall $(XSIM_COV_FLAGS) $(XSIM_PLUSARGS)
 ifeq ($(COV),1)
 	$(XCRG) -cov_db_dir $(COV_DB_DIR) -cov_db_name $(COV_DB_NAME) \
 	 -report_dir $(COV_REPORT_DIR) -report_format $(COV_REPORT_FORMAT)
 endif
 
 gui: elaborate
-	$(XSIM) $(SNAPSHOT) -gui $(XSIM_COV_FLAGS)
+	$(XSIM) $(SNAPSHOT) -gui $(XSIM_COV_FLAGS) $(XSIM_PLUSARGS)
 
 clean:
 	rm -rf xsim.dir xsim.codeCov xsim.covdb .Xil \
