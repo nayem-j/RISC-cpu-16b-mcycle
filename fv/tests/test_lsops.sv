@@ -8,4 +8,18 @@ class test_lsops extends base_test;
     $display("LS Ops test instance created at time %0t", $time);
   endfunction
 
+  virtual task run_test();
+    reset(10);
+    
+    env.ag.gnr.set_gen_kind(GEN_LSOPS);
+    env.ag.gnr.gen(num_seq_gnr); // generate the specified number of sequences
+
+    if (simulation_finished) begin
+      $display("Simulation finished at time %0t", $time);
+      /* let the testbench top do the finishing */
+      // $finish;
+    end
+    env.scr.report();
+  endtask  
+
 endclass : test_lsops

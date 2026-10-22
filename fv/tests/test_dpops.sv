@@ -1,3 +1,4 @@
+import tb_pkg::*;
 
 class test_dpops extends base_test;
 
@@ -10,6 +11,8 @@ class test_dpops extends base_test;
 
   virtual task run_test();
     reset(10);
+    
+    env.ag.gnr.set_gen_kind(GEN_DPOPS);
     env.ag.gnr.gen(num_seq_gnr); // generate the specified number of sequences
 
     if (simulation_finished) begin
